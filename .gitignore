@@ -1,5 +1,6 @@
-dist
 doc
+src
+README.md
 .idea
 
 # Logs

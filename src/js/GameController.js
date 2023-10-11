@@ -15,10 +15,8 @@ export default class GameController {
   }
 
   init() {
-    console.log('init', this.state);
     this.gamePlay.drawUi(getThemes()[0]);
     this.registrationEvents();
-
     
     const teamPlayer = generateTeam([characters.bowman, characters.swordsman, characters.magician], 1, 2);
     const teamOpponent = generateTeam([characters.daemon, characters.undead, characters.vampire], 1, 2);
@@ -37,6 +35,7 @@ export default class GameController {
 
       positionedCharacter.isPlayer = true;
       positionedCharacter.condition = 'live';
+
       this.state.positionedCharacters.push(positionedCharacter);
       usedPosition.push(positionPlayer);
     });
@@ -47,6 +46,7 @@ export default class GameController {
 
       positionedCharacter.isPlayer = false;
       positionedCharacter.condition = 'live';
+
       this.state.positionedCharacters.push(positionedCharacter);
       usedPosition.push(positionOpponent);
     });
@@ -71,6 +71,7 @@ export default class GameController {
     this.state.lvlGame += 1;
     this.activeCharacter = null;
     this.state.motion = 0;
+
     this.gamePlay.drawUi(getThemes()[this.state.lvlGame]);
 
     const newCharPlayer = generateTeam([characters.bowman, characters.swordsman, characters.magician], this.state.lvlGame + 1, numberСharacters - this.state.positionedCharacters.length);
@@ -209,6 +210,7 @@ export default class GameController {
       this.state.positionedCharacters.forEach(elem => {
         if (elem.position === this.activeCharacter.position) {
           this.gamePlay.deselectCell(this.activeCharacter.position);
+
           elem.position = index;
         }
       });
@@ -275,12 +277,14 @@ export default class GameController {
   
   setActiveCharacter(elem, index) {
     this.activeCharacter = elem;
+
     this.gamePlay.selectCell(index);
   }
 
   removSelected(index, arrayCharacters) {
     this.gamePlay.redrawPositions(arrayCharacters);
     this.onCellLeave(index);
+
     this.state.motion += 1;
     this.activeCharacter = null;
     
@@ -315,12 +319,14 @@ export default class GameController {
     if (charactersOpponent.length === 0) {
       if (this.state.lvlGame === 0) {
         this.state.victory += 1;
+
         this.lvlUpGame(3);
       } else if (this.state.lvlGame === 3) {
         this.state.victory += 1;
         this.state.pointerActiveLocked = true;
       } else {
         this.state.victory += 1;
+
         this.lvlUpGame(5);
       }
     }
@@ -347,8 +353,10 @@ export default class GameController {
         if (characterOpponent.determiningRadiusAttack(characterPlayer.position, this.gamePlay.boardSize)) {
           step = true;
           this.activeCharacter = characterOpponent;
+
           this.gamePlay.selectCell(this.activeCharacter.position);
           this.gamePlay.selectCell(characterPlayer.position, 'red');
+
           const damage = this.activeCharacter.character.getDamage(characterPlayer.character);
           
           if (characterPlayer.character.health - damage > 0) {
@@ -394,10 +402,10 @@ export default class GameController {
 
           if (characterOpponent.determiningRadiusAttack(characterPlayer.position, this.gamePlay.boardSize)) {
             step = true;
+
             this.gamePlay.selectCell(possiblePosition, 'green');
 
             characterOpponent.position = oldPosition;
-
             this.activeCharacter = characterOpponent;
             this.gamePlay.selectCell(this.activeCharacter.position);
             this.activeCharacter.position = possiblePosition;
@@ -412,20 +420,20 @@ export default class GameController {
           } else {
             step = true;
             characterOpponent.position = oldPosition;
-            
             let randomIndexCharacter = getRandomInt(0, charactersOpponent.length - 1);
             let randomIndexPosition = getRandomInt(0, possiblePositions[randomIndexCharacter].length - 1);
             let randomPosition = possiblePositions[randomIndexCharacter][randomIndexPosition];
-
             this.activeCharacter = charactersOpponent[randomIndexCharacter];
+
             this.gamePlay.selectCell(this.activeCharacter.position);
             this.gamePlay.selectCell(randomPosition, 'green');
 
             this.state.positionedCharacters.forEach(elem => {
               if (elem.position === this.activeCharacter.position) {
                 this.gamePlay.deselectCell(this.activeCharacter.position);
-                elem.position = randomPosition;
                 this.gamePlay.deselectCell(randomPosition);
+                
+                elem.position = randomPosition;
               }
             });
 

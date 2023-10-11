@@ -23,6 +23,46 @@
  * ```
  * */
 export function calcTileType(index, boardSize) {
+  if (index < 0 || index >= boardSize ** 2) {
+    throw new Error('Вне поля');
+  }
+  
+  if (index === 0) {
+    return 'top-left';
+  }
+
+  if (index === boardSize - 1) {
+    return 'top-right';
+  }
+
+  if (index === (boardSize ** 2 - 1)) {
+    return 'bottom-right';
+  }
+
+  if (index === boardSize * (boardSize - 1)) {
+    return 'bottom-left';
+  }
+
+  if (index < boardSize) {
+    return 'top';
+  }
+
+  if (index > boardSize * (boardSize - 1) && index < boardSize ** 2 - 1) {
+    return 'bottom';
+  }
+
+  for (let i = 1; i < boardSize - 1; i += 1) {
+    if (index === boardSize * i) {
+      return 'left';
+    }
+  }
+
+  for (let i = 2; i < boardSize; i += 1) {
+    if (index === (boardSize * i - 1)) {
+      return 'right';
+    }
+  }
+  
   // TODO: ваш код будет тут
   return 'center';
 }

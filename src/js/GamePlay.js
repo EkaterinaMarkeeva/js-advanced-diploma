@@ -228,4 +228,13 @@ export default class GamePlay {
       throw new Error('GamePlay not bind to DOM');
     }
   }
+  
+  removeAllListeners() {
+    this.cellClickListeners = [];
+    this.cellEnterListeners = [];
+    this.cellLeaveListeners = [];
+    this.newGameListeners = [];
+    this.saveGameListeners = [];
+    this.loadGameListeners = [];
+  }
 }

@@ -13,4 +13,34 @@ export default class PositionedCharacter {
     this.character = character;
     this.position = position;
   }
+  
+  determiningRadiusAttack(index, boardSize) {
+    return this.determiningRadius(index, boardSize, this.character.radiusAttack);
+  }
+
+  determiningRadiusMotion(index, boardSize) {
+    return this.determiningRadius(index, boardSize, this.character.radiusMotion);
+  }
+
+  determiningRadius(index, boardSize, number) {
+    const position = this.position;
+    const myСolumn = position % boardSize;
+    const myString = Math.floor(position / boardSize);
+    const requiredСolumn = index % boardSize;
+    const requiredString = Math.floor(index / boardSize);
+    const differenceString = Math.abs(myString - requiredString);
+    const differenceСolumn = Math.abs(myСolumn - requiredСolumn);
+
+    if (myString === requiredString && differenceСolumn <= number) {
+      return true;
+    }
+
+    if (myСolumn === requiredСolumn && differenceString <= number) {
+      return true;
+    }
+
+    if (differenceString <= number && differenceСolumn <= number && differenceString === differenceСolumn) {
+      return true;
+    }
+  }
 }
